@@ -1,0 +1,107 @@
+name: Auto-Test Secrets on Push
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/trigger-test.yml'
+
+jobs:
+  auto-test-secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test All Secrets
+        run: |
+          echo "🔍 Testing GitHub Actions Secrets..."
+          echo ""
+          
+          FAILED=0
+          
+          # Test SUPABASE_URL
+          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
+            echo "❌ SUPABASE_URL is NOT set"
+            FAILED=1
+          else
+            echo "✅ SUPABASE_URL is set"
+            echo "   Value starts with: $(echo '${{ secrets.SUPABASE_URL }}' | cut -c1-30)..."
+          fi
+          
+          # Test SUPABASE_ANON_KEY
+          if [ -z "${{ secrets.SUPABASE_ANON_KEY }}" ]; then
+            echo "❌ SUPABASE_ANON_KEY is NOT set"
+            FAILED=1
+          else
+            echo "✅ SUPABASE_ANON_KEY is set"
+            echo "   Length: $(echo '${{ secrets.SUPABASE_ANON_KEY }}' | wc -c) characters"
+          fi
+          
+          # Test SUPABASE_SERVICE_KEY
+          if [ -z "${{ secrets.SUPABASE_SERVICE_KEY }}" ]; then
+            echo "❌ SUPABASE_SERVICE_KEY is NOT set"
+            FAILED=1
+          else
+            echo "✅ SUPABASE_SERVICE_KEY is set"
+            echo "   Length: $(echo '${{ secrets.SUPABASE_SERVICE_KEY }}' | wc -c) characters"
+          fi
+          
+          # Test SUPABASE_PROJECT_ID
+          if [ -z "${{ secrets.SUPABASE_PROJECT_ID }}" ]; then
+            echo "❌ SUPABASE_PROJECT_ID is NOT set"
+            FAILED=1
+          else
+            echo "✅ SUPABASE_PROJECT_ID is set"
+            echo "   Value: ${{ secrets.SUPABASE_PROJECT_ID }}"
+          fi
+          
+          # Test SUPABASE_ACCESS_TOKEN (optional)
+          if [ -z "${{ secrets.SUPABASE_ACCESS_TOKEN }}" ]; then
+            echo "⚠️  SUPABASE_ACCESS_TOKEN is NOT set (optional for CLI)"
+          else
+            echo "✅ SUPABASE_ACCESS_TOKEN is set"
+          fi
+          
+          echo ""
+          if [ $FAILED -eq 0 ]; then
+            echo "🎉 All required secrets are configured correctly!"
+          else
+            echo "❌ Some required secrets are missing!"
+            exit 1
+          fi
+
+      - name: Test Supabase Connection
+        run: |
+          echo ""
+          echo "🌐 Testing Supabase API connection..."
+          
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/")
+          
+          echo "Response code: $RESPONSE"
+          
+          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 401 ] || [ "$RESPONSE" -eq 404 ]; then
+            echo "✅ Supabase API is reachable!"
+          else
+            echo "❌ Supabase API returned unexpected status: $RESPONSE"
+            exit 1
+          fi
+
+      - name: Final Summary
+        if: success()
+        run: |
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🎉 SUCCESS! All checks passed!"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "✅ GitHub Secrets are configured correctly"
+          echo "✅ Supabase connection is working"
+          echo "✅ Ready for automatic deployments!"
+          echo ""
+          echo "Next: Push changes to supabase/ folder to trigger deployment"

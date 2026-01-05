@@ -1,0 +1,300 @@
+
+/* Card Styling */
+.today-card {
+  background-color: #ffffff;
+  border-color: #3B44F6;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: 0 8px 20px rgba(59, 68, 246, 0.15);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.today-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(59, 68, 246, 0.22);
+}
+
+/* Notification Styling */
+.notification-item {
+  background-color: #ffffff;
+  border-color: #3B44F6;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: 0 4px 12px rgba(59, 68, 246, 0.12);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.notification-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(59, 68, 246, 0.18);
+}
+
+/* Progress Bar Styles */
+.Progress {
+  background-color: #f3f4f6;
+}
+
+/* Voice assistant pulse animation - behalten für andere mögliche Nutzungen */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+}
+
+.pulse-animation {
+  animation: pulse 1.5s infinite;
+}
+
+/* Chat-spezifische Stile */
+.chat-message-user {
+  background: linear-gradient(90deg, #3B44F6 0%, #4D56FF 100%);
+  border-radius: 12px 12px 2px 12px;
+  box-shadow: 0 4px 12px rgba(59, 68, 246, 0.25);
+}
+
+.chat-message-bot {
+  background: linear-gradient(90deg, #F3F4F6 0%, #E5E7EB 100%);
+  border-radius: 12px 12px 12px 2px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Dunkle Mode Anpassungen */
+:root.dark .chat-message-bot {
+  background: linear-gradient(90deg, #2D323B 0%, #1F2329 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+:root.dark .today-card,
+:root.dark .notification-item {
+  background-color: #1F2329;
+  border-color: #3B44F6;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Chat Bubble Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-bubble-animation {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* Chat Avatar Style */
+.chat-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.chat-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Badge Animation */
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.badge-pulse {
+  animation: pulse-badge 2s infinite;
+}
+
+/* Enhanced Button Styles */
+.btn-enhanced {
+  box-shadow: 0 4px 10px rgba(59, 68, 246, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-enhanced:hover {
+  box-shadow: 0 6px 14px rgba(59, 68, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Card Hover Effects */
+.hover-card-effect {
+  transition: all 0.3s ease;
+}
+
+.hover-card-effect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Animation for Chat */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #3B44F6;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+/* Enhanced Scrollbar for other elements but not sidebar */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: Standard scrollbar für andere Bereiche */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3B44F6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a31b8;
+}
+
+/* Dark mode scrollbar */
+:root.dark ::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+:root.dark ::-webkit-scrollbar-thumb {
+  background: #3B44F6;
+}
+
+:root.dark ::-webkit-scrollbar-thumb:hover {
+  background: #2a31b8;
+}
+
+/* Focus effect for input fields */
+.focus-effect:focus-within {
+  box-shadow: 0 0 0 2px rgba(59, 68, 246, 0.25);
+}
+
+/* Task styles */
+.task-item {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-color: #3B44F6;
+}
+
+/* Priority badges with enhanced styling */
+.priority-badge {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+}
+
+.priority-badge.high {
+  background: linear-gradient(45deg, #FF5252, #FF7676);
+  color: white;
+  border-color: #FF5252;
+}
+
+.priority-badge.medium {
+  background: linear-gradient(45deg, #FFA726, #FFB74D);
+  color: white;
+  border-color: #FFA726;
+}
+
+.priority-badge.low {
+  background: linear-gradient(45deg, #66BB6A, #81C784);
+  color: white;
+  border-color: #66BB6A;
+}
+
+/* Status indicator animations */
+.status-indicator {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-indicator::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: status-pulse 2s infinite;
+  opacity: 0;
+}
+
+.status-indicator.todo::after {
+  background-color: rgba(59, 130, 246, 0.5);
+}
+
+.status-indicator.in-progress::after {
+  background-color: rgba(245, 158, 11, 0.5);
+}
+
+.status-indicator.blocked::after {
+  background-color: rgba(239, 68, 68, 0.5);
+}
+
+@keyframes status-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}

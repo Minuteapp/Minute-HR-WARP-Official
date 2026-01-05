@@ -1,0 +1,122 @@
+project_id = "teydpbqficbdgqovoqlo"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://localhost"
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+port = 54325
+
+[auth]
+enabled = true
+port = 54326
+
+[realtime]
+enabled = true
+port = 54327
+
+[functions.analyze-document]
+verify_jwt = true
+
+[functions.analyze-document-vision]
+verify_jwt = false
+
+[functions.archive-channel]
+verify_jwt = true
+
+[functions.get-mapbox-token]
+verify_jwt = false
+
+[functions.create-admin-user]
+verify_jwt = true
+
+[functions.security-monitor]
+verify_jwt = false
+
+[functions.chat-voice-to-text]
+verify_jwt = false
+
+[functions.send-calendar-invite]
+verify_jwt = false
+
+[functions.notify-document-approval]
+verify_jwt = true
+
+[functions.notify-document-decision]
+verify_jwt = true
+
+[functions.notification-ai-recommendation]
+verify_jwt = false
+
+[functions.translate-text]
+verify_jwt = false
+
+[functions.minute-companion]
+verify_jwt = false
+
+[functions.knowledge-hub-chat]
+verify_jwt = false
+
+[functions.pulse-survey-ai]
+verify_jwt = false
+
+[functions.ai-gateway]
+verify_jwt = false
+
+[functions.speech-to-text]
+verify_jwt = false
+
+[functions.voice-command]
+verify_jwt = false
+
+[functions.event-processor]
+verify_jwt = false
+
+[functions.hr-chat]
+verify_jwt = false
+
+[functions.superadmin-api]
+verify_jwt = false
+
+[functions.absence-ai-analysis]
+verify_jwt = false
+
+[functions.absence-reminder]
+verify_jwt = false
+
+[functions.absence-trend-forecast]
+verify_jwt = false
+
+[functions.kanban-ai-analysis]
+verify_jwt = true
+
+[functions.gantt-ai-analysis]
+verify_jwt = true
+
+[functions.roadmap-ai-analysis]
+verify_jwt = false
+
+[functions.esg-ai-analysis]
+verify_jwt = false
+
+[functions.employee-ai-insights]
+verify_jwt = false
+
+[functions.goal-ai-suggestions]
+verify_jwt = false

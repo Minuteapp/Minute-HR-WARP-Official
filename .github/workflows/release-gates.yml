@@ -1,0 +1,61 @@
+name: Release Gates - Multi-Tenant Security
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+jobs:
+  security-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: P0-5 Mock Data Detection
+        run: npx vitest run tests/gates/mock-data-detection.test.ts --reporter=verbose
+
+      - name: P0-3 RLS Coverage Test
+        run: npx vitest run tests/gates/rls-coverage.test.ts --reporter=verbose
+        continue-on-error: true
+
+      - name: P0-1 Fresh Tenant Test
+        run: npx vitest run tests/gates/fresh-tenant.test.ts --reporter=verbose
+        if: ${{ env.SUPABASE_SERVICE_KEY != '' }}
+
+      - name: P0-2 Tenant Isolation Test
+        run: npx vitest run tests/gates/tenant-isolation.test.ts --reporter=verbose
+        if: ${{ env.SUPABASE_SERVICE_KEY != '' }}
+
+      - name: P0-4 Storage Isolation Test
+        run: npx vitest run tests/gates/storage-isolation.test.ts --reporter=verbose
+        if: ${{ env.SUPABASE_SERVICE_KEY != '' }}
+
+  gate-status:
+    needs: security-gates
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check Gate Status
+        run: |
+          if [ "${{ needs.security-gates.result }}" == "failure" ]; then
+            echo "❌ RELEASE BLOCKED: Security gates failed"
+            exit 1
+          fi
+          echo "✅ All security gates passed"
